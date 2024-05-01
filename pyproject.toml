@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "IPA"
+version = "0.1.0"
+description = "A fast and efficient way to iterative find Pareto optimal solutions for large-scale multiobjective optimization problems."
+authors = ["Bhupinder Saini <bhupinder.s.saini@jyu.fi>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+matplotlib = "^3.8.3"
+jupyter = "^1.0.0"
+plotly = "^5.19.0"
+seaborn = "^0.13.2"
+scienceplots = "^2.1.1"
+tqdm = "^4.66.2"
+pyomo = "^6.7.1"
+hvwfg = "^1.0.2"
+pydantic = "^2.6.3"
+pymoo = "^0.6.1.1"
+desdeo-emo = "^1.5.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3"
+mypy = "^1.8.0"
+
+[tool.ruff]
+line-length = 120
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
