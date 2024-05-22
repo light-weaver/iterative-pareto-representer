@@ -3,7 +3,6 @@
 from typing import Callable
 
 import numpy as np
-from tqdm import tqdm
 
 from ipa.intersection import find_bad_indicesREF
 
@@ -16,7 +15,7 @@ def visibility(
     reference_points: np.ndarray,
     max_iterations: int,
     bad_reference_check: Callable,
-    intersection_threshold: float = 0.05,
+    thickness: float = 0.05,
 ):
     next_ref_index = np.random.randint(low=0, high=len(reference_points))
     evaluated_refs = np.zeros(len(reference_points), dtype=int)
@@ -39,7 +38,7 @@ def visibility(
 
         # TODO: Extract distance/threshold calculation to a separate function to be injected?
         if bad_reference_check(solution, ref_point):
-            bad_indices, _, _ = find_bad_indicesREF(solution, ref_point, reference_points, intersection_threshold)
+            bad_indices, _, _ = find_bad_indicesREF(solution, ref_point, reference_points, thickness)
             # FIXME: Atleast one of the reference points will be good, but it will be marked as bad.
             bad_refs[bad_indices] = i
             bad_indices = np.where(bad_indices)[0]
