@@ -51,25 +51,47 @@ def DSS_scipy(
     return next_ref_index
 
 
-def DSS_scipy_one_liner(
+def DSS_with_pruning(
     available: np.ndarray,
     taken: np.ndarray,
+    evaluated: list[int],
     reference_points: np.ndarray,
 ) -> int:
     """One-liner implementation of the DSS algorithm using scipy."""
 
-    distances = cdist(reference_points[available], reference_points[taken]).min(axis=1)
+    distances = cdist(reference_points[available], reference_points[taken], metric="chebyshev").min(axis=1)
     assert len(available) == len(distances)
     return available[np.argmax(distances)]
+
+
+def random_with_pruning(
+    available: np.ndarray,
+    taken: np.ndarray,
+    evaluated: list[int],
+    reference_points: np.ndarray,
+) -> int:
+    """Randomly select a reference point from the available ones."""
+    return np.random.choice(available)
 
 
 def random_selection(
     available: np.ndarray,
     taken: np.ndarray,
+    evaluated: list[int],
     reference_points: np.ndarray,
 ) -> int:
-    """Randomly select a reference point from the available ones."""
-    return np.random.choice(available)
+    return np.random.choice(range(len(reference_points)))
+
+
+def DSS_without_pruning(
+    available: np.ndarray,
+    taken: np.ndarray,
+    evaluated: list[int],
+    reference_points: np.ndarray,
+) -> int:
+    """One-liner implementation of the DSS algorithm using scipy."""
+    distances = cdist(reference_points, reference_points[evaluated], metric="chebyshev").min(axis=1)
+    return np.argmax(distances)
 
 
 def angle_distance(reference_point, solution, threshold):

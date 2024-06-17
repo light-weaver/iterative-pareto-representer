@@ -34,9 +34,9 @@ def visibility(
         if len(set(bad_refs_idx + evaluated_refs_idx)) == len(reference_points):
             thickness /= 2
             if thickness < 1e-32:
-                #print("Thickness is too small, breaking")
+                # print("Thickness is too small, breaking")
                 break
-            #print(f"Reducing thickness to {thickness}")
+            # print(f"Reducing thickness to {thickness}")
             continue
 
         ref_point = reference_points[next_ref_index]
@@ -59,7 +59,7 @@ def visibility(
             # Handles the case when only one reference point was left to be evaluated
             continue
 
-        next_ref_index = selection_method(available, taken, reference_points)
+        next_ref_index = selection_method(available, taken, evaluated_refs_idx, reference_points)
 
         iteration_counter += 1
     eval_results[-1]["bad_fraction"] = len(bad_refs_idx) / len(reference_points)
