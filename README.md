@@ -1,4 +1,4 @@
-# iterative-pareto-approximator
+# iterative-pareto-representer
 A fast and efficient way to iterative find Pareto optimal solutions for large-scale multiobjective optimization problems.
 
 
