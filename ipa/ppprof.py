@@ -99,7 +99,9 @@ def perfprof(data, linestyle, thmax=None, tol=np.sqrt(np.finfo(np.double).eps), 
         raise ValueError("Number of line specs < number of solvers")
 
     minvals = _best_timings(data)
-
+    ax = None
+    if "ax" in kwargs:
+        ax = kwargs.pop("ax")
     if np.any(minvals <= 0):
         raise ValueError("Data contains non-positive performance measurements")
 
@@ -116,7 +118,10 @@ def perfprof(data, linestyle, thmax=None, tol=np.sqrt(np.finfo(np.double).eps), 
         th, prob = _make_staircase(col, m, thmax, tol)
 
         # plot current line and disable frame clipping (to support y-intercept marking)
-        result = plt.step(th, prob, **linestyle[solver], where="post", **kwargs)
+        if ax is not None:
+            result = ax.step(th, prob, **linestyle[solver], where="post", **kwargs)
+        else:
+            result = plt.step(th, prob, **linestyle[solver], where="post", **kwargs)
         result[0].set_clip_on(False)
 
         return result
@@ -124,9 +129,15 @@ def perfprof(data, linestyle, thmax=None, tol=np.sqrt(np.finfo(np.double).eps), 
     h = [make_plot(solver) for solver in range(n)]
 
     # set axis limits
-    plt.xlim([1, thmax])
-    plt.ylim([0, 1.01])
-    plt.xlabel("performance ratio")
-    plt.ylabel("problems solved")
+    if ax is None:
+        plt.xlim([1, thmax])
+        plt.ylim([0, 1.01])
+        plt.xlabel("performance ratio")
+        plt.ylabel("problems solved")
+    else:
+        ax.set_xlim([1, thmax])
+        ax.set_ylim([0, 1.01])
+        ax.set_xlabel("performance ratio")
+        ax.set_ylabel("problems solved")
 
     return thmax, h
